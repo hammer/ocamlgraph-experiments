@@ -1,0 +1,30 @@
+Name: ocamlgraph-experiments
+Version: 0.1.0
+Synopsis: ocamlgraph experiments
+Authors: Jeff Hammerbacher <jeff.hammerbacher@gmail.com>
+License: LGPL with OCaml linking exception
+
+Description: ocamlgraph experiments
+Homepage: https://github.com/hammer/ocamlgraph-experiments
+
+OASISFormat: 0.4
+BuildTools: ocamlbuild
+Plugins: META (0.4), DevFiles (0.4)
+
+Library "suffix_tree"
+  Path: src/lib
+  FindLibName: suffix_tree
+  Modules: Suffix_tree
+  BuildDepends:
+    ocamlgraph
+
+Executable "test_suffix_tree"
+  Path: src/test
+  Build$: flag(tests)
+  Install: false
+  MainIs: test_suffix_tree.ml
+  CompiledObject: best
+  BuildDepends:
+    suffix_tree,
+    oUnit
+

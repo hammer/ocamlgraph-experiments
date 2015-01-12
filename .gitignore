@@ -1,0 +1,22 @@
+# emacs
+*~
+\#*
+.\#*
+
+# oasis
+Makefile
+_build/
+_tags
+configure
+ocopt.native
+setup.data
+setup.log
+setup.ml
+myocamlbuild.ml
+
+# ocaml
+*.native
+*.bytes
+*.mldylib
+*.mllib
+META
