@@ -1,7 +1,7 @@
 module ST = struct
   module G = struct
-    (* TODO(hamer): Use sosa *)
-    (* TODO(hamer): Make terminator character explicit *)
+    (* TODO(hammer): Use sosa *)
+    (* TODO(hammer): Make terminator character explicit *)
     module Str = struct
       type t = string
       let default = ""
