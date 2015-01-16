@@ -1,2 +1,2 @@
-PKG ocamlgraph oUnit
+PKG ocamlgraph sosa oUnit
 

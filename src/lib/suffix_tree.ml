@@ -1,4 +1,6 @@
 module ST = struct
+  module String = struct include Sosa.Native_string end
+
   module G = struct
     (* TODO(hammer): Use sosa *)
     (* TODO(hammer): Make terminator character explicit *)
@@ -14,6 +16,21 @@ module ST = struct
 
   type t = { g : G.t; root : G.V.t; leaves : G.V.t array }
 
+  let lcp s1 s2 =
+    let split_hd = String.split_at ~index:1 in
+    let rec loop s1 s2 n =
+      match split_hd s1, split_hd s2 with
+      | (hd1, tl1), (hd2, tl2) when hd1 = hd2 -> loop tl1 tl2 (n + 1)
+      | _ -> n
+    in
+    loop s1 s2 0
+
+  let put_suffix st i s =
+    let leaf = G.V.create () in
+    let e = G.E.create st.root s leaf in
+    G.add_edge_e st.g e;
+    st.leaves.(i) <- leaf
+
   let create s =
     let s_length = String.length s in
     let g = G.create () in
@@ -21,11 +38,8 @@ module ST = struct
     let leaves = Array.make s_length (G.V.create ()) in
     let st = { g; root; leaves } in
     for i = 0 to s_length - 1 do
-      let leaf = G.V.create () in
-      let label = String.sub s i (s_length - i) in
-      let e = G.E.create st.root label leaf in
-      G.add_edge_e st.g e;
-      st.leaves.(i) <- leaf;
+      let suffix = String.sub_exn s i (s_length - i) in
+      put_suffix st i suffix;
     done;
     st
 

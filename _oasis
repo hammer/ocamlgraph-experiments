@@ -16,7 +16,8 @@ Library "suffix_tree"
   FindLibName: suffix_tree
   Modules: Suffix_tree
   BuildDepends:
-    ocamlgraph
+    ocamlgraph,
+    sosa
 
 Executable "test_suffix_tree"
   Path: src/test
