@@ -17,6 +17,7 @@ Library "suffix_tree"
   Modules: Suffix_tree
   BuildDepends:
     ocamlgraph,
+    batteries,
     sosa
 
 Executable "test_suffix_tree"
