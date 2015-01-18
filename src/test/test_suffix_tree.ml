@@ -44,13 +44,21 @@ let test_suffixes test_ctxt =
     assert_equal suffix st_suffix
   done
 
+let test_exact_match test_ctxt =
+  let pattern = "hey" in
+  let text = "hey hey hey$" in
+  let st = create text in
+  let matches = exact_match st pattern in
+  assert_equal [0; 4; 8] matches
+
 let suite =
   "suite" >:::
     [
       "test_lcp" >:: test_lcp;
       "test_lcp_path" >:: test_lcp_path;
       "test_get_suffix" >:: test_get_suffix;
-      "test_suffixes" >:: test_suffixes
+      "test_suffixes" >:: test_suffixes;
+      "test_exact_match" >:: test_exact_match
     ]
 
 let () =

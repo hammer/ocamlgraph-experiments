@@ -20,7 +20,8 @@ module ST = struct
     let split_hd = String.split_at ~index:1 in
     let rec loop s1 s2 n =
       match split_hd s1, split_hd s2 with
-      | (hd1, tl1), (hd2, tl2) when hd1 = hd2 -> loop tl1 tl2 (n + 1)
+      | (hd1, tl1), (hd2, tl2)
+        when hd1 = hd2 && String.length hd1 > 0 -> loop tl1 tl2 (n + 1)
       | _ -> n
     in
     loop s1 s2 0
@@ -92,4 +93,25 @@ module ST = struct
       loop st.g st.leaves.(i)
     in
     String.concat (List.rev path_to_root)
+
+  let enumerate_leaves st e =
+    let vs =
+      let rec loop g v =
+        match G.succ g v with
+        | [] -> [v]
+        | succ_vs -> List.flatten (List.map (loop g) succ_vs)
+      in
+      loop st.g (G.E.dst e)
+    in
+    let matches = List.map (fun v -> BatArray.findi ((=) v) st.leaves) vs in
+    List.sort Pervasives.compare matches
+
+  let exact_match st s =
+    let s_len = String.length s in
+    let es = G.succ_e st.g st.root in
+    let lcp_len, split_info = lcp_path st s es in
+    match lcp_len, split_info with
+    | lcp_len, _ when lcp_len < s_len -> []
+    | _, Some split_info -> enumerate_leaves st split_info.e
+    | _, _ -> []
 end
