@@ -64,8 +64,9 @@ module ST = struct
     let v1 = match s_len, split_info with
       | 0, _ -> st.root
       | _, Some split_info -> split_edge st split_info.e split_info.l_pre
+      | _, None -> st.root (* shouldn't happen *)
     in
-    let e = G.E.create v1 s leaf in
+    let e = G.E.create v1 (String.drop ~index:s_len s) leaf in
     G.add_edge_e st.g e
 
   let create s =
@@ -92,6 +93,3 @@ module ST = struct
     in
     String.concat (List.rev path_to_root)
 end
-
-
-
