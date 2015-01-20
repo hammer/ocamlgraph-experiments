@@ -106,7 +106,7 @@ module ST = struct
     let matches = List.map (fun v -> BatArray.findi ((=) v) st.leaves) vs in
     List.sort Pervasives.compare matches
 
-  let exact_match st s =
+  let exact_match_st st s =
     let s_len = String.length s in
     let es = G.succ_e st.g st.root in
     let lcp_len, split_info = lcp_path st s es in
@@ -114,4 +114,8 @@ module ST = struct
     | lcp_len, _ when lcp_len < s_len -> []
     | _, Some split_info -> enumerate_leaves st split_info.e
     | _, _ -> []
+
+  let exact_match pattern text =
+    let st = create text in
+    exact_match_st st pattern
 end
